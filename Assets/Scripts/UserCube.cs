@@ -1,34 +1,18 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UserCube : MonoBehaviour
 {
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
     void Update()
     {
-        bool isRightMouseButtonClicked = Input.GetMouseButtonDown(0);
-        if (isRightMouseButtonClicked)
-        {
-            CheckIfObjectWasHit();
-        }
-    }
-
-    void CheckIfObjectWasHit()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out var raycastHit, 100f))
-        {
-            if (ObjectWasUserCube(raycastHit))
-            {
-                Debug.Log("Collision Normal: " + raycastHit.normal);
-            }
-        }
-    }
-
-    bool ObjectWasUserCube(RaycastHit raycastHit)
-    {
-        return raycastHit.collider.GetComponent<UserCube>() != null;
+        
     }
 }
