@@ -34,25 +34,31 @@ public class PatternCube : MonoBehaviour
 
     IEnumerator AddRandomColorToSequence()
     {
-        Debug.Log("Started Coroutine");
-
         _showingSequenceColor = true;
 
         Color newPatternCubeColor = GetRandomColor();
-
-        _meshRenderer.material.color = newPatternCubeColor;
-
-        _activeColorSequence.Add(newPatternCubeColor);
-        _positionInColorSequence++;
+        
+        ChangeCubeColor(newPatternCubeColor);
+        AddColorToSequence(newPatternCubeColor);
 
         yield return new WaitForSeconds(_timeBetweenColorsDelay);
-        _showingSequenceColor = false;
-        Debug.Log("Ended Couroutine");
-    }
 
+        _showingSequenceColor = false;
+    }
     Color GetRandomColor()
     {
         int randomColorIndex = UnityEngine.Random.Range(0, _possibleColors.Length);
         return _possibleColors[randomColorIndex];
+    }
+
+    void ChangeCubeColor(Color newColor)
+    {
+        _meshRenderer.material.color = newColor;
+    }
+
+    void AddColorToSequence(Color colorToAdd)
+    {
+        _activeColorSequence.Add(colorToAdd);
+        _positionInColorSequence++;
     }
 }
