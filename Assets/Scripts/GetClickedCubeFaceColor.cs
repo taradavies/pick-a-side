@@ -8,29 +8,15 @@ public class GetClickedCubeFaceColor : MonoBehaviour
     // [TEST PURPOSES]
     [SerializeField] TestCube _testCube;
     [SerializeField] UserCube _userCube;
-    void Update()
+
+    public static GetClickedCubeFaceColor Instance;
+
+    void Start()
     {
-        bool isRightMouseButtonClicked = Input.GetMouseButtonDown(0);
-        if (isRightMouseButtonClicked)
-        {
-            CheckIfObjectWasHit();
-        }
+        Instance = this;
     }
 
-    void CheckIfObjectWasHit()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out var raycastHit, 100f))
-        {
-            if (ObjectWasUserCube(raycastHit))
-            {
-                GetCubeFaceColor(raycastHit);
-            }
-        }
-    }
-
-    void GetCubeFaceColor(RaycastHit hit)
+    public void GetCubeFaceColor(RaycastHit hit)
     {
         MeshRenderer meshRenderer = hit.transform.GetComponent<MeshRenderer>();
         MeshCollider meshCollider = hit.collider as MeshCollider;
@@ -47,11 +33,5 @@ public class GetClickedCubeFaceColor : MonoBehaviour
         // [TESTING PURPOSES]
 
         _testCube.SetCurrentColor(tex.GetPixel((int) pixelUV.x, (int) pixelUV.y));
-
-    }
-
-    bool ObjectWasUserCube(RaycastHit raycastHit)
-    {
-        return raycastHit.collider.GetComponent<UserCube>() != null;
     }
 }
