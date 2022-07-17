@@ -1,10 +1,10 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UserCube : MonoBehaviour
 {
-    public List<Color> _currentSequencePressed;
-    int _positionInSequence;
+    List<Color> _currentSequencePressed = new List<Color>();
     Color _currentClickedColor;
 
     void Update()
@@ -26,9 +26,23 @@ public class UserCube : MonoBehaviour
                 _currentClickedColor = GetClickedCubeFaceColor.Instance.GetCubeFaceColor(raycastHit);
 
                 _currentSequencePressed.Add(_currentClickedColor);
+
+                Debug.Log("Sequence pressed length: " + _currentSequencePressed.Count);
+
+                if (SequenceIsCompleted())
+                {
+                    _currentSequencePressed.Clear();
+                    PatternCube.Instance.GenerateNewSequence();
+                }
             }
         }
     }
+    bool SequenceIsCompleted()
+    {
+        List<Color> patternCubeSequence = PatternCube.Instance.GetActiveColorSequence();
+        return _currentSequencePressed.Count >= patternCubeSequence.Count;
+    }
+
     bool ObjectWasUserCube(RaycastHit raycastHit)
     {
         return raycastHit.collider.GetComponent<UserCube>() != null;

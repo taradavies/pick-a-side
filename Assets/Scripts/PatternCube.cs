@@ -7,44 +7,48 @@ public class PatternCube : MonoBehaviour
 {
 
     [SerializeField] Color[] _possibleColors;
-    [SerializeField] float _timeBetweenColorsDelay;
+    [SerializeField] float _timeBetweenColorsDelay = 0.5f;
 
-    public List<Color> _activeColorSequence = new List<Color>();
+    public static PatternCube Instance;
+
+    List<Color> _activeColorSequence = new List<Color>();
     MeshRenderer _meshRenderer;
-    int _positionInColorSequence;
-    bool _showingSequenceColor = false;
 
     void Awake()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    void Update()
-    {
-        if (_showingSequenceColor) {return;}
-
-        StartCoroutine(AddRandomColorToSequence());
-
-    }
-
     void Start()
     {
+        Instance = this;
         _activeColorSequence.Clear();
+        AddRandomColorToSequence();
     }
 
-    IEnumerator AddRandomColorToSequence()
+    void AddRandomColorToSequence()
     {
-        _showingSequenceColor = true;
-
         Color newPatternCubeColor = GetRandomColor();
         
+        _activeColorSequence.Add(newPatternCubeColor);
         ChangeCubeColor(newPatternCubeColor);
-        AddColorToSequence(newPatternCubeColor);
-
-        yield return new WaitForSeconds(_timeBetweenColorsDelay);
-
-        _showingSequenceColor = false;
     }
+
+    public void GenerateNewSequence()
+    {
+        AddRandomColorToSequence();
+        StartCoroutine(PlaybackOldSequence());
+    }
+
+    IEnumerator PlaybackOldSequence()
+    {
+        foreach (Color color in _activeColorSequence)
+        {
+            ChangeCubeColor(color);
+            yield return new WaitForSeconds(_timeBetweenColorsDelay);
+        }
+    }
+
     Color GetRandomColor()
     {
         int randomColorIndex = UnityEngine.Random.Range(0, _possibleColors.Length);
@@ -55,10 +59,8 @@ public class PatternCube : MonoBehaviour
     {
         _meshRenderer.material.color = newColor;
     }
-
-    void AddColorToSequence(Color colorToAdd)
+    public List<Color> GetActiveColorSequence()
     {
-        _activeColorSequence.Add(colorToAdd);
-        _positionInColorSequence++;
+        return _activeColorSequence;
     }
 }
