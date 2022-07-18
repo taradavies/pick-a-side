@@ -40,7 +40,37 @@ public class UserCube : MonoBehaviour
     bool SequenceIsCompleted()
     {
         List<Color> patternCubeSequence = PatternCube.Instance.GetActiveColorSequence();
-        return _currentSequencePressed.Count >= patternCubeSequence.Count;
+        return _currentSequencePressed.Count >= patternCubeSequence.Count && BothSequencesAreEqual(patternCubeSequence);
+    }
+
+    bool BothSequencesAreEqual(List<Color> patternCubeSequence)
+    {
+        Debug.Log("Printing current sequence: ");
+
+        foreach (Color c in _currentSequencePressed)
+        {
+            Debug.Log(c);
+        }
+
+        Debug.Log("Finished printing current colors.");
+
+        Debug.Log("Printing pattern sequence: ");
+
+        foreach (Color c in patternCubeSequence)
+        {
+            Debug.Log(c);
+        }
+
+        Debug.Log("Finished printing active colors."); 
+        
+        for (int x = 0; x < patternCubeSequence.Count; x++)
+        {
+            if (patternCubeSequence[x] != _currentSequencePressed[x])
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     bool ObjectWasUserCube(RaycastHit raycastHit)

@@ -33,8 +33,6 @@ public class CameraMovement : MonoBehaviour
 
             SetCameraPreviousPosition();
         }
-
-
     }
     void SetCameraPreviousPosition()
     {
