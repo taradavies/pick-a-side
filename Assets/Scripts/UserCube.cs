@@ -49,25 +49,7 @@ public class UserCube : MonoBehaviour
     }
 
     bool BothSequencesAreEqual(List<Color> patternCubeSequence)
-    {
-        Debug.Log("Printing current sequence: ");
-
-        foreach (Color c in _currentSequencePressed)
-        {
-            Debug.Log(c);
-        }
-
-        Debug.Log("Finished printing current colors.");
-
-        Debug.Log("Printing pattern sequence: ");
-
-        foreach (Color c in patternCubeSequence)
-        {
-            Debug.Log(c);
-        }
-
-        Debug.Log("Finished printing active colors."); 
-        
+    {        
         for (int x = 0; x < patternCubeSequence.Count; x++)
         {
             if (ColorsAreNotEqual(patternCubeSequence, x))
@@ -88,10 +70,6 @@ public class UserCube : MonoBehaviour
         float redInBothColors = Math.Abs(patternColor.r - sequenceColor.r);
         float greenInBothColors = Math.Abs(patternColor.g - sequenceColor.g);
         float blueInBothColors = Math.Abs(patternColor.b - sequenceColor.b);
-
-        Debug.Log("RED: " + redInBothColors);
-        Debug.Log("GREEN: " + greenInBothColors);
-        Debug.Log("BLUE: " + blueInBothColors);
 
         return !(redInBothColors <= 0.1 && greenInBothColors <= 0.1 && blueInBothColors <= 0.1);
     }
