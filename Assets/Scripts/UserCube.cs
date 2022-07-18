@@ -40,7 +40,8 @@ public class UserCube : MonoBehaviour
     bool SequenceIsCompleted()
     {
         List<Color> patternCubeSequence = PatternCube.Instance.GetActiveColorSequence();
-        return _currentSequencePressed.Count >= patternCubeSequence.Count && BothSequencesAreEqual(patternCubeSequence);
+        return _currentSequencePressed.Count >= patternCubeSequence.Count;
+        // && BothSequencesAreEqual(patternCubeSequence);
     }
 
     bool BothSequencesAreEqual(List<Color> patternCubeSequence)

@@ -29,8 +29,11 @@ public class GetClickedCubeFaceColor : MonoBehaviour
 
         Color faceColor = tex.GetPixel((int) pixelUV.x, (int) pixelUV.y);
 
-        _testCube.SetCurrentColor(faceColor);
+        Color newFaceColor = new Color(faceColor.r, faceColor.g, faceColor.b, 0);
+        
 
-        return faceColor;
+        _testCube.SetCurrentColor(newFaceColor);
+
+        return newFaceColor;
     }
 }
