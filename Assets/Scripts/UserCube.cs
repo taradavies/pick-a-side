@@ -34,14 +34,18 @@ public class UserCube : MonoBehaviour
                     _currentSequencePressed.Clear();
                     PatternCube.Instance.GenerateNewSequence();
                 }
+                // else
+                // {
+                //     // transition to game over screen
+                // }
             }
         }
     }
     bool SequenceIsCompleted()
     {
         List<Color> patternCubeSequence = PatternCube.Instance.GetActiveColorSequence();
-        return _currentSequencePressed.Count >= patternCubeSequence.Count;
-        // && BothSequencesAreEqual(patternCubeSequence);
+        return _currentSequencePressed.Count >= patternCubeSequence.Count
+        && BothSequencesAreEqual(patternCubeSequence);
     }
 
     bool BothSequencesAreEqual(List<Color> patternCubeSequence)
@@ -66,12 +70,30 @@ public class UserCube : MonoBehaviour
         
         for (int x = 0; x < patternCubeSequence.Count; x++)
         {
-            if (patternCubeSequence[x] != _currentSequencePressed[x])
+            if (ColorsAreNotEqual(patternCubeSequence, x))
             {
+                Debug.Log("They are not equal...");
                 return false;
             }
         }
+        Debug.Log("They are equal!");
         return true;
+    }
+
+    bool ColorsAreNotEqual(List<Color> patternCubeSequence, int x)
+    {
+        Color patternColor = patternCubeSequence[x];
+        Color sequenceColor = _currentSequencePressed[x];
+
+        float redInBothColors = Math.Abs(patternColor.r - sequenceColor.r);
+        float greenInBothColors = Math.Abs(patternColor.g - sequenceColor.g);
+        float blueInBothColors = Math.Abs(patternColor.b - sequenceColor.b);
+
+        Debug.Log("RED: " + redInBothColors);
+        Debug.Log("GREEN: " + greenInBothColors);
+        Debug.Log("BLUE: " + blueInBothColors);
+
+        return !(redInBothColors <= 0.1 && greenInBothColors <= 0.1 && blueInBothColors <= 0.1);
     }
 
     bool ObjectWasUserCube(RaycastHit raycastHit)
